@@ -10,11 +10,14 @@ import android.widget.EditText;
 
 
 public class MainActivity extends ActionBarActivity {
-	public final static String EXTRA_MESSAGE = "com.JHN.shitubasays.MESSAGE";
+	public final static String QOTD = "com.JHN.shitubasays.QOTD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // TODO: Set the QOTD
+        
         setContentView(R.layout.activity_main);
     }
 
@@ -35,10 +38,12 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        else if (id == R.id.action_search) {
-        	return true;
-        }
         return super.onOptionsItemSelected(item);
+    }
+    
+    public void viewQuotes(View view) {
+    	Intent intent = new Intent(this, ViewQuotesActivity.class);
+    	startActivity(intent);
     }
     
     public void addQuote(View view) {

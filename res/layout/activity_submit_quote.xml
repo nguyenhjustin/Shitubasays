@@ -1,3 +1,40 @@
+<!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!--     xmlns:tools="http://schemas.android.com/tools" -->
+<!--     android:layout_width="match_parent" -->
+<!--     android:layout_height="match_parent" -->
+<!--     android:paddingBottom="@dimen/activity_vertical_margin" -->
+<!--     android:paddingLeft="@dimen/activity_horizontal_margin" -->
+<!--     android:paddingRight="@dimen/activity_horizontal_margin" -->
+<!--     android:paddingTop="@dimen/activity_vertical_margin" -->
+<!--     tools:context="com.JHN.shitubasays.SubmitQuoteActivity" > -->
+    
+<!--     <LinearLayout android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:orientation="vertical" > -->
+        
+<!-- 	    <EditText android:id="@+id/edit_quote" -->
+<!-- 	        android:textSize="16sp"   -->
+<!-- 			android:layout_width="match_parent" -->
+<!-- 			android:layout_height="wrap_content" -->
+<!-- 	        android:inputType="textMultiLine" -->
+<!-- 			android:hint="@string/edit_quote" /> -->
+	    
+<!-- 	    <EditText android:id="@+id/edit_name" -->
+<!-- 	        android:textSize="16sp"   -->
+<!-- 			android:layout_width="match_parent" -->
+<!-- 			android:layout_height="wrap_content" -->
+<!-- 			android:hint="@string/edit_name" /> -->
+	    
+<!-- 	    <Button android:textSize="20sp"   -->
+<!-- 	        android:id="@+id/button_submit" -->
+<!-- 	        android:layout_width="wrap_content" -->
+<!-- 	        android:layout_height="wrap_content" -->
+<!-- 	        android:hint="@string/button_submit" -->
+<!-- 	        android:onClick="submitQuote" /> -->
+    	    
+<!-- 	</LinearLayout> -->
+<!-- </ScrollView> -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,18 +43,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.JHN.shitubasays.DisplayMessageActivity" >
-
-    <EditText android:id="@+id/edit_quote" 
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/edit_quote" />
+    tools:context="com.JHN.shitubasays.SubmitQuoteActivity" >
     
-    <Button android:id="@+id/button_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_quote"
-        android:hint="@string/button_submit"
-        android:onClick="submitQuote" />
-    	    
+    <TextView android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Coming soon..." />
+    
 </RelativeLayout>
