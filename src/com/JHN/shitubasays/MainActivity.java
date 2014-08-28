@@ -1,5 +1,7 @@
 package com.JHN.shitubasays;
 
+import java.util.HashMap;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 
 public class MainActivity extends ActionBarActivity {
 	public final static String QOTD = "com.JHN.shitubasays.QOTD";
+	public static HashMap<String, Integer> image_person_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
         // TODO: Set the QOTD
         
         setContentView(R.layout.activity_main);
+        setupImagePersonMap();
     }
 
 
@@ -52,5 +56,23 @@ public class MainActivity extends ActionBarActivity {
     	//String message = editText.getText().toString();
     	//intent.putExtra(EXTRA_MESSAGE, message);
     	startActivity(intent);
+    }
+    
+    public static int getImageId(String name) {
+    	return image_person_map.get(name);
+    }
+    
+    private void setupImagePersonMap() {
+    	image_person_map = new HashMap<String, Integer>();
+    	image_person_map.put("justin", R.drawable.justin);
+    	image_person_map.put("alex", R.drawable.alex);
+    	image_person_map.put("darin", R.drawable.darin);
+    	image_person_map.put("erick", R.drawable.erick);
+    	image_person_map.put("ivan", R.drawable.ivan);
+    	image_person_map.put("sam", R.drawable.sam);
+    	image_person_map.put("esteban", R.drawable.esteban);
+    	image_person_map.put("loren", R.drawable.loren);
+    	image_person_map.put("uclatubas", R.drawable.uclatubas);
+    	image_person_map.put("snips", R.drawable.snips);
     }
 }
