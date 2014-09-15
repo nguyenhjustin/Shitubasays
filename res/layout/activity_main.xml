@@ -8,12 +8,18 @@
 	    android:paddingTop="@dimen/activity_vertical_margin"
 	    tools:context="com.JHN.shitubasays.MainActivity">
 	    
-    <TextView android:textStyle="bold"
+    <TextView android:id="@+id/qotd" 
+        android:textStyle="bold"
         android:textSize="22sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="@string/const_qotd" />
+        android:text="@string/qotd" />
+    
+    <TextView android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qotd" />
     
     <Button android:textSize="20sp" 
         android:layout_width="wrap_content"

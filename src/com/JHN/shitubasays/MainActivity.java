@@ -1,19 +1,31 @@
 package com.JHN.shitubasays;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
 	public final static String QOTD = "com.JHN.shitubasays.QOTD";
 	public static HashMap<String, Integer> image_person_map;
+	public TextView content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +35,11 @@ public class MainActivity extends ActionBarActivity {
         
         setContentView(R.layout.activity_main);
         setupImagePersonMap();
+        
+        content = (TextView) findViewById(R.id.content);
+        
+        String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
+        new HttpAsyncTask().execute(URL);
     }
 
 
@@ -74,5 +91,51 @@ public class MainActivity extends ActionBarActivity {
     	image_person_map.put("loren", R.drawable.loren);
     	image_person_map.put("uclatubas", R.drawable.uclatubas);
     	image_person_map.put("snips", R.drawable.snips);
+    }
+    
+    public static String GET(String url) {
+    	InputStream inputStream = null;
+    	String result = "";
+    	
+    	try {
+    		HttpClient client = new DefaultHttpClient();
+    		HttpResponse response = client.execute(new HttpGet(url));
+    		inputStream = response.getEntity().getContent();
+    		if (inputStream != null) {
+    			result = ConvertInputStreamToString(inputStream);
+    		}
+    		else {
+    			result = "Did not work!";
+    		}
+    	}
+    	catch (Exception e) {
+    		
+    	}
+    	
+    	return result;
+    }
+    
+    private static String ConvertInputStreamToString(InputStream inputStream) throws IOException {
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+    	String line = "";
+    	String result = "";
+    	while ((line = reader.readLine()) != null) {
+    		result += line;
+    	}
+    	inputStream.close();
+    	return result;
+    }
+    
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+    	@Override
+    	protected String doInBackground(String... urls) {
+    		return GET(urls[0]);
+    	}
+    	
+    	@Override
+    	protected void onPostExecute(String result) {
+    		Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+    		content.setText(result);
+    	}
     }
 }

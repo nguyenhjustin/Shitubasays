@@ -7,7 +7,7 @@
     <string name="action_search">Search</string>
     
     <!-- Main Screen -->
-    <string name="const_qotd">Quote of the Day</string>
+    <string name="qotd">Quote of the Day</string>
     <string name="button_view">View Quotes</string>
     <string name="button_add">Add a Quote</string>
     
