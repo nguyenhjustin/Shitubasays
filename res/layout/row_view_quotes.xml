@@ -9,20 +9,20 @@
         android:contentDescription="@string/image_person" />
 
     <TextView android:id="@+id/quote_content"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_toRightOf="@id/image_person"
         android:ellipsize="end"
         android:paddingLeft="5dp"
-        android:singleLine="true"
-        android:textSize="20sp" />
+        android:singleLine="true" />
 
     <TextView android:id="@+id/quote_name"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_below="@id/quote_content"
         android:layout_toRightOf="@id/image_person"
-        android:paddingLeft="5dp"
-        android:textSize="20sp" />
+        android:paddingLeft="5dp" />
 
 </RelativeLayout>

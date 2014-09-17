@@ -16,10 +16,13 @@
         android:gravity="center_horizontal"
         android:text="@string/qotd" />
     
-    <TextView android:id="@+id/content"
+    <TextView android:id="@+id/qotd_content"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/qotd" />
+        android:gravity="center_horizontal"
+        android:layout_below="@id/qotd"
+        android:paddingTop="5dp" />
     
     <Button android:textSize="20sp" 
         android:layout_width="wrap_content"

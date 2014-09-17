@@ -22,32 +22,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 
 public class MainActivity extends ActionBarActivity {
 	public final static String QOTD = "com.JHN.shitubasays.QOTD";
 	public static HashMap<String, Integer> image_person_map;
-	public TextView content;
+	public TextView qotd_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // TODO: Set the QOTD
-        
         setContentView(R.layout.activity_main);
         setupImagePersonMap();
         
-        content = (TextView) findViewById(R.id.content);
+        qotd_content = (TextView) findViewById(R.id.qotd_content);
+        qotd_content.setText("O wa ta di condois");
         
-        String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
-        new HttpAsyncTask().execute(URL);
+        //String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
+        //new HttpAsyncTask().execute(URL);
         
         Parse.initialize(this, "ZgPcDlXeN2WfUOhXI4Rb7XHQb4Dyp4lSdS7pLJ2C", "YT2yxdpiX5EIBKscUdKYCrHE2TWThTSWVpyEWZyn");
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
     }
 
 
@@ -77,73 +72,76 @@ public class MainActivity extends ActionBarActivity {
     
     public void addQuote(View view) {
     	Intent intent = new Intent(this, SubmitQuoteActivity.class);
-    	//EditText editText = (EditText) findViewById(R.id.edit_quote);
-    	//String message = editText.getText().toString();
-    	//intent.putExtra(EXTRA_MESSAGE, message);
     	startActivity(intent);
     }
     
     public static int getImageId(String name) {
-    	return image_person_map.get(name);
+    	if (image_person_map.containsKey(name)) {
+    		return image_person_map.get(name);
+    	}
+    	else {
+    		return image_person_map.get("Generic");
+    	}		
     }
     
     private void setupImagePersonMap() {
     	image_person_map = new HashMap<String, Integer>();
-    	image_person_map.put("justin", R.drawable.justin);
-    	image_person_map.put("alex", R.drawable.alex);
-    	image_person_map.put("darin", R.drawable.darin);
-    	image_person_map.put("erick", R.drawable.erick);
-    	image_person_map.put("ivan", R.drawable.ivan);
-    	image_person_map.put("sam", R.drawable.sam);
-    	image_person_map.put("esteban", R.drawable.esteban);
-    	image_person_map.put("loren", R.drawable.loren);
-    	image_person_map.put("uclatubas", R.drawable.uclatubas);
-    	image_person_map.put("snips", R.drawable.snips);
+    	image_person_map.put("Justin", R.drawable.justin);
+    	image_person_map.put("Alex", R.drawable.alex);
+    	image_person_map.put("Darin", R.drawable.darin);
+    	image_person_map.put("Erick", R.drawable.erick);
+    	image_person_map.put("Ivan", R.drawable.ivan);
+    	image_person_map.put("Sam", R.drawable.sam);
+    	image_person_map.put("Esteban", R.drawable.esteban);
+    	image_person_map.put("Loren", R.drawable.loren);
+    	image_person_map.put("Uclatubas", R.drawable.uclatubas);
+    	image_person_map.put("Snips", R.drawable.snips);
+    	image_person_map.put("Generic", R.drawable.generic);
     }
     
-    public static String GET(String url) {
-    	InputStream inputStream = null;
-    	String result = "";
-    	
-    	try {
-    		HttpClient client = new DefaultHttpClient();
-    		HttpResponse response = client.execute(new HttpGet(url));
-    		inputStream = response.getEntity().getContent();
-    		if (inputStream != null) {
-    			result = ConvertInputStreamToString(inputStream);
-    		}
-    		else {
-    			result = "Did not work!";
-    		}
-    	}
-    	catch (Exception e) {
-    		
-    	}
-    	
-    	return result;
-    }
-    
-    private static String ConvertInputStreamToString(InputStream inputStream) throws IOException {
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-    	String line = "";
-    	String result = "";
-    	while ((line = reader.readLine()) != null) {
-    		result += line;
-    	}
-    	inputStream.close();
-    	return result;
-    }
-    
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-    	@Override
-    	protected String doInBackground(String... urls) {
-    		return GET(urls[0]);
-    	}
-    	
-    	@Override
-    	protected void onPostExecute(String result) {
-    		Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-    		content.setText(result);
-    	}
-    }
+//    public static String GET(String url) {
+//    	InputStream inputStream = null;
+//    	String result = "";
+//    	
+//    	try {
+//    		HttpClient client = new DefaultHttpClient();
+//    		HttpResponse response = client.execute(new HttpGet(url));
+//    		inputStream = response.getEntity().getContent();
+//    		if (inputStream != null) {
+//    			result = ConvertInputStreamToString(inputStream);
+//    		}
+//    		else {
+//    			result = "Did not work!";
+//    		}
+//    	}
+//    	catch (Exception e) {
+//    		
+//    	}
+//    	
+//    	return result;
+//    }
+//    
+//    private static String ConvertInputStreamToString(InputStream inputStream) throws IOException {
+//    	BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//    	String line = "";
+//    	String result = "";
+//    	while ((line = reader.readLine()) != null) {
+//    		result += line;
+//    	}
+//    	inputStream.close();
+//    	return result;
+//    }
+//    
+//    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+//    	@Override
+//    	protected String doInBackground(String... urls) {
+//    		return GET(urls[0]);
+//    	}
+//    	
+//    	@Override
+//    	protected void onPostExecute(String result) {
+//    		Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+//    		content.setText(result);
+//    	}
+//    }
 }

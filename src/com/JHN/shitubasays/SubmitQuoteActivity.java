@@ -3,11 +3,16 @@ package com.JHN.shitubasays;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class SubmitQuoteActivity extends ActionBarActivity {
 
@@ -15,18 +20,6 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_submit_quote);
-		
-		// Get the message from the intent
-		//Intent intent = getIntent();
-		//String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-		
-		// Create the text view
-		//TextView textView = new TextView(this);
-		//textView.setTextSize(40);
-		//textView.setText(message);
-		
-		// Set the text view as the activity layout
-		//setContentView(textView);
 	}
 
 	@Override
@@ -51,8 +44,27 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 		ParseObject test = new ParseObject("Test");
 		test.put("Quote", quote);
 		test.put("Name", name);
-		test.saveInBackground();
 		
+		final TextView submitting = new TextView(this);
+		submitting.setText("Submitting...");
+		submitting.setTextSize(22);
+		submitting.setGravity(Gravity.CENTER);
+		setContentView(submitting);
+		
+		test.saveInBackground(new SaveCallback() {
+			@Override
+			public void done(ParseException e) {
+				if (e == null) {
+					submitting.setText("Success!");
+				}
+				else {
+					submitting.setText("FAILURE TO SUBMIT :/");
+				}
+			}
+		});
+	}
+	
+	public void DoneSubmit() {
 		NavUtils.navigateUpFromSameTask(this);
 	}
 }

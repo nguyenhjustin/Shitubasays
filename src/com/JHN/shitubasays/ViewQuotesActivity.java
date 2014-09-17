@@ -6,9 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -23,13 +25,14 @@ public class ViewQuotesActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_quotes);
+		
+		TextView loading = new TextView(this);
+		loading.setText("Loading...");
+		loading.setTextSize(22);
+		loading.setGravity(Gravity.CENTER);
+		setContentView(loading);
 		
 		getQuotes(this);
-		
-//		list = (ListView) findViewById(R.id.list);
-//		row_adapter = new RowQuoteAdapter(this, row_quotes);
-//		list.setAdapter(row_adapter);
 	}
 
 	@Override
@@ -56,36 +59,39 @@ public class ViewQuotesActivity extends ActionBarActivity {
 	
 	private void getQuotes(final Context context) {
 		row_quotes = new ArrayList<RowQuote>();
-//		row_quotes.add(new RowQuote("justin", "Shut the fuck up, Sid", "Justin"));
-//		row_quotes.add(new RowQuote("uclatubas", "We're good to go!", "UCLA Tubas"));
-//		row_quotes.add(new RowQuote("loren", "uh.. fucken..", "Loren"));
-//		row_quotes.add(new RowQuote("alex", "I respect the toilet. It's only for shitting and pissing", "Alex"));
-//		row_quotes.add(new RowQuote("darin", "BEEEEEEEEEEEEEF", "Darin"));
-//		row_quotes.add(new RowQuote("erick", "no balls, not down", "Erick"));
-//		row_quotes.add(new RowQuote("sam", "I'm reading about a rabbit that is Buddha", "Sam"));
-//		row_quotes.add(new RowQuote("esteban", "I bought this at the store", "Esteban"));
-//		row_quotes.add(new RowQuote("ivan", "tits pussy vagina penis dick ass", "Ivan"));
-//		row_quotes.add(new RowQuote("snips", "hey what time do we meet on the field?", "Snips"));
+//		row_quotes.add(new RowQuote("Justin", "Shut the fuck up, Sid", "Justin"));
+//		row_quotes.add(new RowQuote("Uclatubas", "We're good to go!", "UCLA Tubas"));
+//		row_quotes.add(new RowQuote("Loren", "uh.. fucken..", "Loren"));
+//		row_quotes.add(new RowQuote("Alex", "I respect the toilet. It's only for shitting and pissing", "Alex"));
+//		row_quotes.add(new RowQuote("Darin", "BEEEEEEEEEEEEEF", "Darin"));
+//		row_quotes.add(new RowQuote("Erick", "no balls, not down", "Erick"));
+//		row_quotes.add(new RowQuote("Sam", "I'm reading about a rabbit that is Buddha", "Sam"));
+//		row_quotes.add(new RowQuote("Esteban", "I bought this at the store", "Esteban"));
+//		row_quotes.add(new RowQuote("Ivan", "tits pussy vagina penis dick ass", "Ivan"));
+//		row_quotes.add(new RowQuote("Snips", "hey what time do we meet on the field?", "Snips"));
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
 		query.whereExists("createdAt");
 		query.orderByDescending("createdAt");
 		
 		query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
 			public void done(List<ParseObject> quoteList, ParseException e) {
 				if (e == null) {
 					for (int i = 0; i < quoteList.size(); i++) {
 						String quote = quoteList.get(i).getString("Quote");
 						String name = quoteList.get(i).getString("Name");
-						row_quotes.add(new RowQuote("justin", quote, name));
+						name = name.substring(0, 1).toUpperCase() + name.substring(1);
+						row_quotes.add(new RowQuote(name, quote, name));
 					}
 				}
 				else {
-					row_quotes.add(new RowQuote("justin", "end", "end"));
+					row_quotes.add(new RowQuote("Justin", "yo, no internet connection or my database is down", "Justin"));
 				}
 				
-				list = (ListView) findViewById(R.id.list);
 				row_adapter = new RowQuoteAdapter(context, row_quotes);
+				setContentView(R.layout.activity_view_quotes);
+				list = (ListView) findViewById(R.id.list);
 				list.setAdapter(row_adapter);
 			}
 		});
