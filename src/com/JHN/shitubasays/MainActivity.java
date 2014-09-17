@@ -11,8 +11,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.os.AsyncTask;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -20,6 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -40,6 +43,11 @@ public class MainActivity extends ActionBarActivity {
         
         String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
         new HttpAsyncTask().execute(URL);
+        
+        Parse.initialize(this, "ZgPcDlXeN2WfUOhXI4Rb7XHQb4Dyp4lSdS7pLJ2C", "YT2yxdpiX5EIBKscUdKYCrHE2TWThTSWVpyEWZyn");
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
     }
 
 

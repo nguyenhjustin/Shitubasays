@@ -1,11 +1,13 @@
 package com.JHN.shitubasays;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import com.parse.ParseObject;
 
 public class SubmitQuoteActivity extends ActionBarActivity {
 
@@ -39,8 +41,17 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void submitQuote(View view) {
-		// TODO: Send quote and name to server
+	public void SubmitQuote(View view) {
+		EditText edit_quote = (EditText) findViewById(R.id.edit_quote);
+		String quote = edit_quote.getText().toString();
+		
+		EditText edit_name = (EditText) findViewById(R.id.edit_name);
+		String name = edit_name.getText().toString();
+		
+		ParseObject test = new ParseObject("Test");
+		test.put("Quote", quote);
+		test.put("Name", name);
+		test.saveInBackground();
 		
 		NavUtils.navigateUpFromSameTask(this);
 	}
