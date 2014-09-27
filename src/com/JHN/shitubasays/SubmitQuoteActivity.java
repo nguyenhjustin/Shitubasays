@@ -1,11 +1,13 @@
 package com.JHN.shitubasays;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -58,7 +60,7 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 					submitting.setText("Success!");
 				}
 				else {
-					submitting.setText("FAILURE TO SUBMIT :/");
+					submitting.setText("Failed to submit. Make sure you're connected to the internet and try again.");
 				}
 			}
 		});

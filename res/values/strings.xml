@@ -10,6 +10,7 @@
     <string name="qotd">Quote of the Day</string>
     <string name="button_view">View Quotes</string>
     <string name="button_add">Add a Quote</string>
+    <string name="icon">App Icon</string>
     
     <!-- View Quotes -->
     <string name="title_activity_view_quotes">Quotes</string>

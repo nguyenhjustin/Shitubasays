@@ -9,6 +9,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -73,6 +77,7 @@ public class ViewQuotesActivity extends ActionBarActivity {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
 		query.whereExists("createdAt");
 		query.orderByDescending("createdAt");
+		query.setLimit(10);
 		
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
@@ -86,14 +91,25 @@ public class ViewQuotesActivity extends ActionBarActivity {
 					}
 				}
 				else {
-					row_quotes.add(new RowQuote("Justin", "yo, no internet connection or my database is down", "Justin"));
+					row_quotes.add(new RowQuote("Justin", "hm, either you don't have internet connection or my database is down", "Justin"));
 				}
 				
 				row_adapter = new RowQuoteAdapter(context, row_quotes);
 				setContentView(R.layout.activity_view_quotes);
 				list = (ListView) findViewById(R.id.list);
 				list.setAdapter(row_adapter);
+				setupListViewListener();
 			}
+		});
+	}
+	
+	public void setupListViewListener() {
+		list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//RowQuoteAdapter row = (RowQuoteAdapter) list.getItemAtPosition(position);
+				
+			}	
 		});
 	}
 }
