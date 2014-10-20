@@ -1,6 +1,7 @@
 package com.JHN.shitubasays;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -25,10 +26,14 @@ public class ViewQuotesActivity extends ActionBarActivity {
 	ArrayList<RowQuote> row_quotes;
 	ListView list;
 	RowQuoteAdapter row_adapter;
+	ParseQuery<ParseObject> query;
+	Date last_item_date;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		query = ParseQuery.getQuery("Test");
 		
 		TextView loading = new TextView(this);
 		loading.setText("Loading...");
@@ -61,23 +66,20 @@ public class ViewQuotesActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	public void loadBackQuotes(View view) {
+		
+	}
+	
+	public void loadMoreQuotes(View view) {
+		
+	}
+	
 	private void getQuotes(final Context context) {
 		row_quotes = new ArrayList<RowQuote>();
-//		row_quotes.add(new RowQuote("Justin", "Shut the fuck up, Sid", "Justin"));
-//		row_quotes.add(new RowQuote("Uclatubas", "We're good to go!", "UCLA Tubas"));
-//		row_quotes.add(new RowQuote("Loren", "uh.. fucken..", "Loren"));
-//		row_quotes.add(new RowQuote("Alex", "I respect the toilet. It's only for shitting and pissing", "Alex"));
-//		row_quotes.add(new RowQuote("Darin", "BEEEEEEEEEEEEEF", "Darin"));
-//		row_quotes.add(new RowQuote("Erick", "no balls, not down", "Erick"));
-//		row_quotes.add(new RowQuote("Sam", "I'm reading about a rabbit that is Buddha", "Sam"));
-//		row_quotes.add(new RowQuote("Esteban", "I bought this at the store", "Esteban"));
-//		row_quotes.add(new RowQuote("Ivan", "tits pussy vagina penis dick ass", "Ivan"));
-//		row_quotes.add(new RowQuote("Snips", "hey what time do we meet on the field?", "Snips"));
 		
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
 		query.whereExists("createdAt");
 		query.orderByDescending("createdAt");
-		query.setLimit(10);
+		//query.setLimit(10);
 		
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
@@ -88,6 +90,10 @@ public class ViewQuotesActivity extends ActionBarActivity {
 						String name = quoteList.get(i).getString("Name");
 						name = name.substring(0, 1).toUpperCase() + name.substring(1);
 						row_quotes.add(new RowQuote(name, quote, name));
+						
+						if (i == quoteList.size()-1) {
+							last_item_date = quoteList.get(i).getCreatedAt();
+						}
 					}
 				}
 				else {
@@ -98,18 +104,7 @@ public class ViewQuotesActivity extends ActionBarActivity {
 				setContentView(R.layout.activity_view_quotes);
 				list = (ListView) findViewById(R.id.list);
 				list.setAdapter(row_adapter);
-				setupListViewListener();
 			}
-		});
-	}
-	
-	public void setupListViewListener() {
-		list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//RowQuoteAdapter row = (RowQuoteAdapter) list.getItemAtPosition(position);
-				
-			}	
 		});
 	}
 }

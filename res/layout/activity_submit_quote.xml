@@ -25,12 +25,20 @@
 			android:layout_height="wrap_content"
 			android:hint="@string/edit_name" />
 	    
-	    <Button android:textSize="20sp"  
-	        android:id="@+id/button_submit"
+	    <Button android:id="@+id/button_submit"
+	        android:textSize="20sp"  
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:hint="@string/button_submit"
+	        android:text="@string/button_submit"
 	        android:onClick="SubmitQuote" />
+	    
+	    <TextView android:id="@+id/submit_status"
+	        android:textSize="20sp"
+	        android:textColor="#ff0f00"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal" />
+	        
     	    
 	</LinearLayout>
 </ScrollView>

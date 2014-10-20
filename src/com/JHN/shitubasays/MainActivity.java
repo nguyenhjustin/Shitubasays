@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,17 +33,18 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_main);
-        setupImagePersonMap();
-        
-        qotd_content = (TextView) findViewById(R.id.qotd_content);
-        qotd_content.setText("O wa ta di condois");
-        
-        //String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
-        //new HttpAsyncTask().execute(URL);
         
         Parse.initialize(this, "ZgPcDlXeN2WfUOhXI4Rb7XHQb4Dyp4lSdS7pLJ2C", "YT2yxdpiX5EIBKscUdKYCrHE2TWThTSWVpyEWZyn");
+        
+        setupImagePersonMap();
+             
+    	qotd_content = (TextView) findViewById(R.id.qotd_content);
+        qotd_content.setText("O wa ta di condois");
+        
+        // Testing JSON 
+        //String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
+        //new HttpAsyncTask().execute(URL); 
     }
 
 
@@ -94,11 +96,31 @@ public class MainActivity extends ActionBarActivity {
     	image_person_map.put("Sam", R.drawable.sam);
     	image_person_map.put("Esteban", R.drawable.esteban);
     	image_person_map.put("Loren", R.drawable.loren);
-    	image_person_map.put("Uclatubas", R.drawable.uclatubas);
+    	image_person_map.put("UCLA Tubas", R.drawable.uclatubas);
     	image_person_map.put("Snips", R.drawable.snips);
     	image_person_map.put("Generic", R.drawable.generic);
+    	image_person_map.put("Laura", R.drawable.laura);
+    	image_person_map.put("Jing", R.drawable.jing);
+    	image_person_map.put("Jason", R.drawable.jason);
+    	image_person_map.put("Briley", R.drawable.briley);
+    	image_person_map.put("Anup", R.drawable.anup);
+    	image_person_map.put("Chris", R.drawable.chris);
+    	image_person_map.put("Christina", R.drawable.christina);
+    	image_person_map.put("James", R.drawable.james);
+    	image_person_map.put("Jfague", R.drawable.jfague);
+    	image_person_map.put("Joe", R.drawable.joe);
+    	image_person_map.put("Mack", R.drawable.mack);
+    	image_person_map.put("Nicole", R.drawable.nicole);
+    	image_person_map.put("Sincuir", R.drawable.sincuir);
+    	image_person_map.put("Sprenkels", R.drawable.sprenkels);
+    	image_person_map.put("Susie", R.drawable.susie);
+    	image_person_map.put("Vivian", R.drawable.vivian);
+    	image_person_map.put("Aaron", R.drawable.aaron);
+    	image_person_map.put("Adan", R.drawable.adan);
+    	image_person_map.put("David",  R.drawable.david);
     }
-    
+
+    // Testing JSON
 //    public static String GET(String url) {
 //    	InputStream inputStream = null;
 //    	String result = "";

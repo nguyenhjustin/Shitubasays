@@ -43,27 +43,33 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 		EditText edit_name = (EditText) findViewById(R.id.edit_name);
 		String name = edit_name.getText().toString();
 		
-		ParseObject test = new ParseObject("Test");
-		test.put("Quote", quote);
-		test.put("Name", name);
-		
-		final TextView submitting = new TextView(this);
-		submitting.setText("Submitting...");
-		submitting.setTextSize(22);
-		submitting.setGravity(Gravity.CENTER);
-		setContentView(submitting);
-		
-		test.saveInBackground(new SaveCallback() {
-			@Override
-			public void done(ParseException e) {
-				if (e == null) {
-					submitting.setText("Success!");
+		if (quote.length() == 0 || name.length() == 0) {
+			TextView submit_status = (TextView) findViewById(R.id.submit_status);
+			submit_status.setText("Please enter a quote and name.");
+		}
+		else {
+			ParseObject test = new ParseObject("Test");
+			test.put("Quote", quote);
+			test.put("Name", name);
+			
+			final TextView submitting = new TextView(this);
+			submitting.setText("Submitting...");
+			submitting.setTextSize(22);
+			submitting.setGravity(Gravity.CENTER);
+			setContentView(submitting);
+			
+			test.saveInBackground(new SaveCallback() {
+				@Override
+				public void done(ParseException e) {
+					if (e == null) {
+						submitting.setText("Success!");
+					}
+					else {
+						submitting.setText("Failed to submit. Make sure you're connected to the internet and try again.");
+					}
 				}
-				else {
-					submitting.setText("Failed to submit. Make sure you're connected to the internet and try again.");
-				}
-			}
-		});
+			});
+		}
 	}
 	
 	public void DoneSubmit() {

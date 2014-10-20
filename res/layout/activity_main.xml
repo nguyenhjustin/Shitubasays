@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:hint="@string/button_view" 
+        android:text="@string/button_view" 
         android:onClick="viewQuotes" />
 	    
 	<Button android:textSize="20sp" 
@@ -39,7 +39,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:layout_alignParentRight="true"
-	    android:hint="@string/button_add"
+	    android:text="@string/button_add"
 	    android:onClick="addQuote" />
 	    
 </RelativeLayout>
