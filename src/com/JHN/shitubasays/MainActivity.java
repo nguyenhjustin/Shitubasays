@@ -1,33 +1,22 @@
 package com.JHN.shitubasays;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.Parse;
-
+import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 public class MainActivity extends ActionBarActivity {
 	public final static String QOTD = "com.JHN.shitubasays.QOTD";
-	public static HashMap<String, Integer> image_person_map;
+	public static HashMap<String, Integer> image_person_map = MainApplication.image_person_map;
 	public TextView qotd_content;
 
     @Override
@@ -35,16 +24,21 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        Parse.initialize(this, "ZgPcDlXeN2WfUOhXI4Rb7XHQb4Dyp4lSdS7pLJ2C", "YT2yxdpiX5EIBKscUdKYCrHE2TWThTSWVpyEWZyn");
-        
-        setupImagePersonMap();
+        // Subscribe for push notifications
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+        	@Override
+        	public void done(ParseException e) {
+        		if (e != null) {
+        			// success
+        		}
+        		else {
+        			// fail
+        		}
+        	}
+        });
              
     	qotd_content = (TextView) findViewById(R.id.qotd_content);
-        qotd_content.setText("O wa ta di condois");
-        
-        // Testing JSON 
-        //String URL = "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=4798";
-        //new HttpAsyncTask().execute(URL); 
+        qotd_content.setText("O wa ta di condois"); 
     }
 
 
@@ -78,6 +72,8 @@ public class MainActivity extends ActionBarActivity {
     }
     
     public static int getImageId(String name) {
+    	name = name.substring(0, 1).toUpperCase() + name.substring(1);
+    	
     	if (image_person_map.containsKey(name)) {
     		return image_person_map.get(name);
     	}
@@ -85,85 +81,4 @@ public class MainActivity extends ActionBarActivity {
     		return image_person_map.get("Generic");
     	}		
     }
-    
-    private void setupImagePersonMap() {
-    	image_person_map = new HashMap<String, Integer>();
-    	image_person_map.put("Justin", R.drawable.justin);
-    	image_person_map.put("Alex", R.drawable.alex);
-    	image_person_map.put("Darin", R.drawable.darin);
-    	image_person_map.put("Erick", R.drawable.erick);
-    	image_person_map.put("Ivan", R.drawable.ivan);
-    	image_person_map.put("Sam", R.drawable.sam);
-    	image_person_map.put("Esteban", R.drawable.esteban);
-    	image_person_map.put("Loren", R.drawable.loren);
-    	image_person_map.put("UCLA Tubas", R.drawable.uclatubas);
-    	image_person_map.put("Snips", R.drawable.snips);
-    	image_person_map.put("Generic", R.drawable.generic);
-    	image_person_map.put("Laura", R.drawable.laura);
-    	image_person_map.put("Jing", R.drawable.jing);
-    	image_person_map.put("Jason", R.drawable.jason);
-    	image_person_map.put("Briley", R.drawable.briley);
-    	image_person_map.put("Anup", R.drawable.anup);
-    	image_person_map.put("Chris", R.drawable.chris);
-    	image_person_map.put("Christina", R.drawable.christina);
-    	image_person_map.put("James", R.drawable.james);
-    	image_person_map.put("Jfague", R.drawable.jfague);
-    	image_person_map.put("Joe", R.drawable.joe);
-    	image_person_map.put("Mack", R.drawable.mack);
-    	image_person_map.put("Nicole", R.drawable.nicole);
-    	image_person_map.put("Sincuir", R.drawable.sincuir);
-    	image_person_map.put("Sprenkels", R.drawable.sprenkels);
-    	image_person_map.put("Susie", R.drawable.susie);
-    	image_person_map.put("Vivian", R.drawable.vivian);
-    	image_person_map.put("Aaron", R.drawable.aaron);
-    	image_person_map.put("Adan", R.drawable.adan);
-    	image_person_map.put("David",  R.drawable.david);
-    }
-
-    // Testing JSON
-//    public static String GET(String url) {
-//    	InputStream inputStream = null;
-//    	String result = "";
-//    	
-//    	try {
-//    		HttpClient client = new DefaultHttpClient();
-//    		HttpResponse response = client.execute(new HttpGet(url));
-//    		inputStream = response.getEntity().getContent();
-//    		if (inputStream != null) {
-//    			result = ConvertInputStreamToString(inputStream);
-//    		}
-//    		else {
-//    			result = "Did not work!";
-//    		}
-//    	}
-//    	catch (Exception e) {
-//    		
-//    	}
-//    	
-//    	return result;
-//    }
-//    
-//    private static String ConvertInputStreamToString(InputStream inputStream) throws IOException {
-//    	BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//    	String line = "";
-//    	String result = "";
-//    	while ((line = reader.readLine()) != null) {
-//    		result += line;
-//    	}
-//    	inputStream.close();
-//    	return result;
-//    }
-//    
-//    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-//    	@Override
-//    	protected String doInBackground(String... urls) {
-//    		return GET(urls[0]);
-//    	}
-//    	
-//    	@Override
-//    	protected void onPostExecute(String result) {
-//    		Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-//    		content.setText(result);
-//    	}
-//    }
 }

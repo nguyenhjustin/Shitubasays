@@ -88,7 +88,6 @@ public class ViewQuotesActivity extends ActionBarActivity {
 					for (int i = 0; i < quoteList.size(); i++) {
 						String quote = quoteList.get(i).getString("Quote");
 						String name = quoteList.get(i).getString("Name");
-						name = name.substring(0, 1).toUpperCase() + name.substring(1);
 						row_quotes.add(new RowQuote(name, quote, name));
 						
 						if (i == quoteList.size()-1) {

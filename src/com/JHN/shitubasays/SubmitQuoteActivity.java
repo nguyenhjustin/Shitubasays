@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 public class SubmitQuoteActivity extends ActionBarActivity {
-
+	private ParseObject parse_obj = new ParseObject("Test");
+	private ParsePush parse_push = new ParsePush();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,32 +40,44 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 	}
 	
 	public void SubmitQuote(View view) {
+		// Get the quote string
 		EditText edit_quote = (EditText) findViewById(R.id.edit_quote);
-		String quote = edit_quote.getText().toString();
+		final String quote = edit_quote.getText().toString();
 		
+		// Get the name string
 		EditText edit_name = (EditText) findViewById(R.id.edit_name);
-		String name = edit_name.getText().toString();
+		final String name = edit_name.getText().toString();
 		
+		// Prevent submitting an empty quote or name
 		if (quote.length() == 0 || name.length() == 0) {
 			TextView submit_status = (TextView) findViewById(R.id.submit_status);
 			submit_status.setText("Please enter a quote and name.");
 		}
 		else {
-			ParseObject test = new ParseObject("Test");
-			test.put("Quote", quote);
-			test.put("Name", name);
+			parse_obj.put("Quote", quote);
+			parse_obj.put("Name", name);
 			
+			// Display submitting screen
 			final TextView submitting = new TextView(this);
 			submitting.setText("Submitting...");
 			submitting.setTextSize(22);
 			submitting.setGravity(Gravity.CENTER);
 			setContentView(submitting);
 			
-			test.saveInBackground(new SaveCallback() {
+			parse_obj.saveInBackground(new SaveCallback() {
 				@Override
 				public void done(ParseException e) {
 					if (e == null) {
 						submitting.setText("Success!");
+						
+						String push_message = name + ": " + quote;
+						if (push_message.length() > 40) {
+							push_message = push_message.substring(0, 40) + "...";
+						}
+						
+						parse_push.setChannel("");
+						parse_push.setMessage(push_message);
+						parse_push.sendInBackground();
 					}
 					else {
 						submitting.setText("Failed to submit. Make sure you're connected to the internet and try again.");
