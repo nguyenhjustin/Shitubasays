@@ -60,9 +60,9 @@ public class ViewQuotesActivity extends ActionBarActivity {
 		if (id == R.id.action_settings) {
 			return true;
 		}
-		else if (id == R.id.action_search) {
-        	return true;
-        }
+//		else if (id == R.id.action_search) {
+//        	return true;
+//        }
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -88,7 +88,7 @@ public class ViewQuotesActivity extends ActionBarActivity {
 					for (int i = 0; i < quoteList.size(); i++) {
 						String quote = quoteList.get(i).getString("Quote");
 						String name = quoteList.get(i).getString("Name");
-						row_quotes.add(new RowQuote(name, quote, name));
+						row_quotes.add(new RowQuote(name, quote));
 						
 						if (i == quoteList.size()-1) {
 							last_item_date = quoteList.get(i).getCreatedAt();
@@ -96,7 +96,7 @@ public class ViewQuotesActivity extends ActionBarActivity {
 					}
 				}
 				else {
-					row_quotes.add(new RowQuote("Justin", "hm, either you don't have internet connection or my database is down", "Justin"));
+					row_quotes.add(new RowQuote("Justin", "hm, either you don't have internet connection or my database is down"));
 				}
 				
 				row_adapter = new RowQuoteAdapter(context, row_quotes);

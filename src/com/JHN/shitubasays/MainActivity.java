@@ -1,6 +1,7 @@
 package com.JHN.shitubasays;
 
-import java.util.HashMap;
+import java.util.*;
+import java.text.*;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,16 +9,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class MainActivity extends ActionBarActivity {
 	public final static String QOTD = "com.JHN.shitubasays.QOTD";
-	public static HashMap<String, Integer> image_person_map = MainApplication.image_person_map;
+	ParseQuery<ParseObject> query;
 	public TextView qotd_content;
+	Random rand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +42,31 @@ public class MainActivity extends ActionBarActivity {
         		}
         	}
         });
-             
-    	qotd_content = (TextView) findViewById(R.id.qotd_content);
-        qotd_content.setText("O wa ta di condois"); 
+        
+        // Grab a random quote to display
+        qotd_content = (TextView) findViewById(R.id.qotd_content);
+        
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        Date date = new Date();
+        rand = new Random(Long.valueOf(dateFormat.format(date)));
+       
+        query = ParseQuery.getQuery("Test");
+        query.whereExists("createdAt");
+        query.orderByAscending("createdAt");
+        
+        query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
+			public void done(List<ParseObject> quoteList, ParseException e) {
+				if (e == null) {
+					int i = rand.nextInt(quoteList.size());
+					String quote = quoteList.get(i).getString("Quote");
+					qotd_content.setText(quote); 
+				}
+				else {
+					qotd_content.setText("O wa ta di condois");
+				}
+			}
+		});
     }
 
 
@@ -69,16 +97,5 @@ public class MainActivity extends ActionBarActivity {
     public void addQuote(View view) {
     	Intent intent = new Intent(this, SubmitQuoteActivity.class);
     	startActivity(intent);
-    }
-    
-    public static int getImageId(String name) {
-    	name = name.substring(0, 1).toUpperCase() + name.substring(1);
-    	
-    	if (image_person_map.containsKey(name)) {
-    		return image_person_map.get(name);
-    	}
-    	else {
-    		return image_person_map.get("Generic");
-    	}		
     }
 }

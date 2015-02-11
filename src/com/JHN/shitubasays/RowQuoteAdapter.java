@@ -37,7 +37,7 @@ public class RowQuoteAdapter extends ArrayAdapter<RowQuote> {
 		TextView quote_name_view = (TextView) rowView.findViewById(R.id.quote_name);
 		
 		// Set the views
-		img_view.setImageResource(rowQuoteArrayList.get(position).getImage_person());
+		img_view.setImageResource(rowQuoteArrayList.get(position).getImagePerson());
 		quote_content_view.setText("\"" + rowQuoteArrayList.get(position).getQuote_content() + "\"");
 		quote_name_view.setHint(rowQuoteArrayList.get(position).getQuote_name());
 		

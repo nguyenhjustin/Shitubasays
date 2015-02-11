@@ -1,15 +1,14 @@
 package com.JHN.shitubasays;
 
-import android.content.Context;
+import java.util.*;
+
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.parse.ParseException;
@@ -42,18 +41,34 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 	public void SubmitQuote(View view) {
 		// Get the quote string
 		EditText edit_quote = (EditText) findViewById(R.id.edit_quote);
-		final String quote = edit_quote.getText().toString();
+		String temp_quote = edit_quote.getText().toString();
+		final String quote = ParseQuote(temp_quote);
 		
 		// Get the name string
 		EditText edit_name = (EditText) findViewById(R.id.edit_name);
-		final String name = edit_name.getText().toString();
+		String temp_name = edit_name.getText().toString();
+		temp_name = ParseName(temp_name);
+		
+		Map<String, Object[]> image_person_map = MainApplication.getImagePersonMap();
 		
 		// Prevent submitting an empty quote or name
-		if (quote.length() == 0 || name.length() == 0) {
+		if (quote.length() == 0 || temp_name.length() == 0) {
 			TextView submit_status = (TextView) findViewById(R.id.submit_status);
 			submit_status.setText("Please enter a quote and name.");
 		}
+		// Check if name is in the mapping
+		else if (!image_person_map.containsKey(temp_name)) {
+			TextView submit_status = (TextView) findViewById(R.id.submit_status);
+			submit_status.setText("Please try a different name.");
+    	}
+		// For testing purposes
+//		else {
+//			TextView submit_status = (TextView) findViewById(R.id.submit_status);
+//			final String name = (String)image_person_map.get(temp_name)[0];
+//			submit_status.setText("Quote: " + quote + "\nName: " + name);
+//		}
 		else {
+			final String name = (String)image_person_map.get(temp_name)[0];
 			parse_obj.put("Quote", quote);
 			parse_obj.put("Name", name);
 			
@@ -89,5 +104,23 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 	
 	public void DoneSubmit() {
 		NavUtils.navigateUpFromSameTask(this);
+	}
+	
+	private String ParseQuote(String quote) {
+		quote.trim();
+		
+		// Ignore quotes inserted by the users themselves
+		if (quote.length() >= 2) {
+			if ( (quote.startsWith("'") || quote.startsWith("\"")) && (quote.endsWith("'") || quote.endsWith("\"")) ) {
+				quote = quote.substring(1, quote.length()-1);
+			}
+		}
+		
+		return quote;
+	}
+	
+	private String ParseName(String name) {
+		name.trim().toLowerCase();
+		return name;
 	}
 }

@@ -63,7 +63,8 @@ public class ParsePushNotification extends ParsePushBroadcastReceiver {
 	
 	@Override
 	protected Bitmap getLargeIcon(Context context, Intent intent) {
-		Bitmap large_icon = BitmapFactory.decodeResource(context.getResources(), MainActivity.getImageId(name));
+		RowQuote rq = new RowQuote(name, "");
+		Bitmap large_icon = BitmapFactory.decodeResource(context.getResources(), rq.getImagePerson());
 		return large_icon;
 	}
 }
