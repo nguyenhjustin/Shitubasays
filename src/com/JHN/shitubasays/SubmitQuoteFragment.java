@@ -2,12 +2,15 @@ package com.JHN.shitubasays;
 
 import java.util.*;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.MenuItem;
+import android.support.v4.app.*;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,54 +19,56 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
-public class SubmitQuoteActivity extends ActionBarActivity {
+public class SubmitQuoteFragment extends Fragment {
 	private ParseObject parse_obj = new ParseObject("Test");
 	private ParsePush parse_push = new ParsePush();
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_submit_quote);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.submit_quote, container, false);
+    }
+	
+	public void Refresh() {
+		TextView submit_status = (TextView) getView().findViewById(R.id.submit_status);
+		submit_status.setText("");
 	}
 	
 	public void SubmitQuote(View view) {
+		// Hide the keyboard
+		Activity a = getActivity();
+		InputMethodManager inputManager = (InputMethodManager) a.getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (a.getCurrentFocus() == null) {
+			inputManager.hideSoftInputFromWindow(null, InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+		else {
+			inputManager.hideSoftInputFromWindow(a.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+		
 		// Get the quote string
-		EditText edit_quote = (EditText) findViewById(R.id.edit_quote);
+		final EditText edit_quote = (EditText) getView().findViewById(R.id.edit_quote);
 		String temp_quote = edit_quote.getText().toString();
 		final String quote = ParseQuote(temp_quote);
 		
 		// Get the name string
-		EditText edit_name = (EditText) findViewById(R.id.edit_name);
+		final EditText edit_name = (EditText) getView().findViewById(R.id.edit_name);
 		String temp_name = edit_name.getText().toString();
 		temp_name = ParseName(temp_name);
 		
 		Map<String, Object[]> image_person_map = MainApplication.getImagePersonMap();
 		
 		// Prevent submitting an empty quote or name
+		final TextView submit_status = (TextView) getView().findViewById(R.id.submit_status);
+		submit_status.setTextColor(Color.parseColor("#ff0f00")); // RED
+		
 		if (quote.length() == 0 || temp_name.length() == 0) {
-			TextView submit_status = (TextView) findViewById(R.id.submit_status);
 			submit_status.setText("Please enter a quote and name.");
 		}
 		// Check if name is in the mapping
 		else if (!image_person_map.containsKey(temp_name)) {
-			TextView submit_status = (TextView) findViewById(R.id.submit_status);
 			submit_status.setText("Please try a different name.");
     	}
 		// For testing purposes
 //		else {
-//			TextView submit_status = (TextView) findViewById(R.id.submit_status);
 //			final String name = (String)image_person_map.get(temp_name)[0];
 //			submit_status.setText("Quote: " + quote + "\nName: " + name);
 //		}
@@ -73,18 +78,13 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 			parse_obj.put("Name", name);
 			
 			// Display submitting screen
-			final TextView submitting = new TextView(this);
-			submitting.setText("Submitting...");
-			submitting.setTextSize(22);
-			submitting.setGravity(Gravity.CENTER);
-			setContentView(submitting);
+			submit_status.setTextColor(Color.parseColor("#000000")); // BLACK
+			submit_status.setText("Submitting...");
 			
 			parse_obj.saveInBackground(new SaveCallback() {
 				@Override
 				public void done(ParseException e) {
 					if (e == null) {
-						submitting.setText("Success!");
-						
 						String push_message = name + ": " + quote;
 						if (push_message.length() > 40) {
 							push_message = push_message.substring(0, 40) + "...";
@@ -93,17 +93,19 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 						parse_push.setChannel("");
 						parse_push.setMessage(push_message);
 						parse_push.sendInBackground();
+					
+						edit_quote.setText("");
+						edit_name.setText("");
+						submit_status.setTextColor(Color.parseColor("#2eb7ed")); // BLUE
+						submit_status.setText("Success!");
 					}
 					else {
-						submitting.setText("Failed to submit. Make sure you're connected to the internet and try again.");
+						submit_status.setTextColor(Color.parseColor("#ff0f00")); // RED
+						submit_status.setText("Failed to submit. Make sure you're connected to the internet and try again.");
 					}
 				}
 			});
 		}
-	}
-	
-	public void DoneSubmit() {
-		NavUtils.navigateUpFromSameTask(this);
 	}
 	
 	private String ParseQuote(String quote) {
@@ -116,6 +118,10 @@ public class SubmitQuoteActivity extends ActionBarActivity {
 			}
 		}
 		
+		if (quote.length() >= 1) {
+			quote = quote.substring(0, 1).toUpperCase() + quote.substring(1, quote.length());
+		}
+
 		return quote;
 	}
 	

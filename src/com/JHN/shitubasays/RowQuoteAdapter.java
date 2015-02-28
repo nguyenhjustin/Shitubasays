@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,21 +39,6 @@ public class RowQuoteAdapter extends ArrayAdapter<RowQuote> {
 		img_view.setImageResource(rowQuoteArrayList.get(position).getImagePerson());
 		quote_content_view.setText("\"" + rowQuoteArrayList.get(position).getQuote_content() + "\"");
 		quote_name_view.setHint(rowQuoteArrayList.get(position).getQuote_name());
-		
-		// Expand/unexpand the quote if it's selected
-//		if (position == selected_position && convertView != null) {
-//			if (quote_content_view.getLayoutParams().height != LayoutParams.WRAP_CONTENT) {
-//				quote_content_view.setHeight(LayoutParams.WRAP_CONTENT);
-//				
-//				LayoutParams layout_params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-//				rowView.setLayoutParams(layout_params);
-//			}
-//			else {
-//				quote_content_view.setHeight(25);
-//				LayoutParams layout_params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 50);
-//				rowView.setLayoutParams(layout_params);
-//			}
-//		}
 		
 		return rowView;
 	}
