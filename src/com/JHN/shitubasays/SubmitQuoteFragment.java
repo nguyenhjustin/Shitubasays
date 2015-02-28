@@ -29,19 +29,25 @@ public class SubmitQuoteFragment extends Fragment {
     }
 	
 	public void Refresh() {
-		TextView submit_status = (TextView) getView().findViewById(R.id.submit_status);
-		submit_status.setText("");
+		if (getView() != null) {
+			TextView submit_status = (TextView) getView().findViewById(R.id.submit_status);
+			submit_status.setText("");
+		}
 	}
 	
 	public void SubmitQuote(View view) {
 		// Hide the keyboard
-		Activity a = getActivity();
-		InputMethodManager inputManager = (InputMethodManager) a.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (a.getCurrentFocus() == null) {
-			inputManager.hideSoftInputFromWindow(null, InputMethodManager.HIDE_NOT_ALWAYS);
-		}
-		else {
-			inputManager.hideSoftInputFromWindow(a.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		Activity a;
+		
+		if ((a = getActivity()) != null) {
+			InputMethodManager inputManager = (InputMethodManager) a.getSystemService(Context.INPUT_METHOD_SERVICE);
+			
+			if (a.getCurrentFocus() == null) {
+				inputManager.hideSoftInputFromWindow(null, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+			else {
+				inputManager.hideSoftInputFromWindow(a.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			}
 		}
 		
 		// Get the quote string

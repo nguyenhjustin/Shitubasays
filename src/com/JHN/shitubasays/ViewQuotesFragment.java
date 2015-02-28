@@ -89,10 +89,6 @@ public class ViewQuotesFragment extends Fragment {
         
         return v;
     }
-
-	public void Refresh() {
-		
-	}
 	
 	public void loadBackQuotes(View view) {
 		
